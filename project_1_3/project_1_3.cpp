@@ -73,8 +73,8 @@ int main() {
     y.push_back(sum_at_pos);
   }
 
-  // printVector("x", x);
-  // printVector("w", w);
+  printVector("x", x);
+  printVector("w", w);
   // printVector("y", y);
   printVector(y);
   // =========== END ===========
