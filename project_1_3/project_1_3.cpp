@@ -19,6 +19,22 @@ std::vector<double> readInVector(std::string s) {
   return result;
 }
 
+void printVector(std::vector<double> vec) {
+  std::cout << "{";
+  for (int i=0; i<vec.size()-1; i++) {
+    std::cout << vec[i] << ", ";
+  }
+  std::cout << vec[vec.size()-1] << "}" << std::endl;
+}
+
+void printVector(std::string vec_name, std::vector<double> vec) {
+  std::cout << vec_name << ": {";
+  for (int i=0; i<vec.size()-1; i++) {
+    std::cout << vec[i] << ", ";
+  }
+  std::cout << vec[vec.size()-1] << "}" << std::endl;
+}
+
 int main() {
   std::vector<double> x;
   std::vector<double> w;
@@ -37,10 +53,30 @@ int main() {
 
   // TODO write your code here
   // =========== START =========
+  int shift = w.size()/2;
+  for (int i=0; i<x.size(); i++) {
+    double sum_at_pos = 0;
+    for (int k=0; k<w.size(); k++) { // k = kernel_indx
+      int input_indx = i+k-shift;
+      double input_val = 
+        (input_indx>=0 && input_indx<x.size()) 
+          ? x[input_indx]         // if index in bounds, set to val at index
+          : (pack_with_zeros      // else, if pack_with_zeros
+              ? 0.0                   // set val to 0
+              : (input_indx<0         // else, match val with closest in-bounds val
+                ? x[0]
+                : x[x.size()-1]
+                )
+            );
+      sum_at_pos += input_val*w[k];
+    }
+    y.push_back(sum_at_pos);
+  }
 
-
-
-
+  // printVector("x", x);
+  // printVector("w", w);
+  // printVector("y", y);
+  printVector(y);
   // =========== END ===========
 
   return 0;
